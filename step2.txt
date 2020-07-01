@@ -1,0 +1,90 @@
+{
+  "orderId": "order001",
+  "notification": {
+    "list": [
+      { "channel": "InAPP", "title": 9511, "message": 1344 },
+      { "channel": "EMAIL", "title": 9511, "message": 40 }
+    ]
+  }
+}
+
+
+{
+  "Item": {
+    "orderCreatedDate": "2020-04-20T14:05:31Z",
+    "orderNotificationPreferences": [
+      {
+        "channel": "INAPP",
+        "address": "user001"
+      }
+    ],
+    "orderStatus": "Order Open",
+    "orderId1": "order001"
+  },
+  "userOpted": true,
+  "userPreferenceList": 1
+}
+
+ "Process Messages": {
+      "Type": "Map",
+      "Next": "Finish",
+      "ItemsPath": "$",
+      "Parameters": {
+        "MessageNumber.$": "$$.Map.Item.Index",
+        "MessageDetails.$": "$$.Map.Item.Value"
+      },
+      "Iterator": {
+        "StartAt": "IN-APP",
+        "States": {
+          "IN-APP": {
+            "Type": "Pass",
+            "Next" : "Finish"
+            }            
+          }
+        }
+    },
+
+ {
+  "orderId": "order001",
+  "userPreference": {
+    "Item": {
+      "orderCreatedDate": "2020-04-20T14:05:31Z",
+      "orderNotificationPreferences": [
+        {
+          "channel": "INAPP",
+          "address": "user001"
+        }
+      ],
+      "orderStatus": "Order Open",
+      "orderId1": "order001"
+    },
+    "userOpted": true,
+    "userPreferenceList": 1
+  }
+}   
+
+
+ {
+
+"orderId" : "order001"
+
+ }   
+
+   {
+
+  "orderId" : "order001",
+    "title" : "test title",
+    "message" : "teat message"
+
+   }   
+
+ {
+  "channel": "GCM",
+  "address": "flyUql1RBrg:APA91bHyUXxm3JhwmNoQOKvKE3jbfPZBcaEc1_B9uRpJ8sNJ5SDQ73-amXOWgBswOAqCOWKrifZXpCdV7j0udw2hZGKKbzuHYIotEWmTkCk7CNVFeqrtW-nKQEe3g8edZHpRk__UvzkV",
+  "title": "test email",
+  "message" : "test message body"
+} 
+
+https://dev.d2f27o1gnhor6g.amplifyapp.com
+
+https://dev.d2f27o1gnhor6g.amplifyapp.com

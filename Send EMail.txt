@@ -1,0 +1,91 @@
+Send EMail
+
+{
+    "MessageConfiguration":{
+        "EmailMessage":{
+            "FromAddress":"cibilan@gmail.com",
+            
+            "SimpleEmail":{
+                "Subject":{
+                    "Data":"Sample Amazon Pinpoint message postman"
+                },
+                "HtmlPart":{
+                    "Data":"<h1>Test message</h1><p>This is a sample message sent from <a href=\"https://aws.amazon.com/pinpoint\">Amazon Pinpoint</a> using the SendMessages API.</p>"
+                },
+                "TextPart":{
+                    "Data":"This is a sample message sent from Amazon Pinpoint using the SendMessages API."
+                }
+            }https://{{endpoint}}/v1/apps/{{projectId}}/messages
+        }
+    },
+    "Addresses":{
+        "srinijavay@gmail.com": {
+            "ChannelType": "EMAIL"
+        }
+    }
+}
+
+
+Send Email and push
+
+{
+    "MessageConfiguration":{
+        "EmailMessage":{
+            "FromAddress":"cibilan@gmail.com",
+            "SimpleEmail":{
+                "Subject":{
+                    "Data":"Sample Amazon Pinpoint message postman multi channel"
+                },
+                "HtmlPart":{
+                    "Data":"<h1>Test message</h1><p>This is a sample message sent from <a href=\"https://aws.amazon.com/pinpoint\">Amazon Pinpoint</a> using the SendMessages API.</p>"
+                },
+                "TextPart":{
+                    "Data":"This is a sample message sent from Amazon Pinpoint using the SendMessages API."
+                }
+            }
+        },
+         "GCMMessage": {
+          "Body": "Hello world",
+          "Priority": "normal",
+          "SilentPush": false,
+          "Title": "Test message sent from Amazon Pinpoint",
+          "TimeToLive": 30,
+          "Url": "www.test.com"
+        }
+    },
+    "Addresses":{
+        "cibilanone@gmail.com": {
+            "ChannelType": "EMAIL"
+        },
+        "cibilan@gmail.com": {
+            "ChannelType": "EMAIL"
+        },
+         "flyUql1RBrg:APA91bHyUXxm3JhwmNoQOKvKE3jbfPZBcaEc1_B9uRpJ8sNJ5SDQ73-amXOWgBswOAqCOWKrifZXpCdV7j0udw2hZGKKbzuHYIotEWmTkCk7CNVFeqrtW-nKQEe3g8edZHpRk__UvzkV": {
+            "ChannelType": "GCM"
+        }
+    }
+}
+
+Sending using template
+
+{
+    "MessageConfiguration": {
+        "GCMMessage": {
+            "Priority": "normal",
+            "SilentPush": false,
+            "TimeToLive": 30
+        }
+    },
+    "TemplateConfiguration": {
+        "PushTemplate": {
+            "Name": "test_cibi_template",
+            "Version": "1"
+        }
+    },
+    "Addresses": {
+        "flyUql1RBrg:APA91bHyUXxm3JhwmNoQOKvKE3jbfPZBcaEc1_B9uRpJ8sNJ5SDQ73-amXOWgBswOAqCOWKrifZXpCdV7j0udw2hZGKKbzuHYIotEWmTkCk7CNVFeqrtW-nKQEe3g8edZHpRk__UvzkV": {
+            "ChannelType": "GCM"
+        }
+    }
+}
+

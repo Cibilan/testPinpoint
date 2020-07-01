@@ -1,0 +1,96 @@
+{
+  "Comment": "An example of the Amazon States Language for reading preferences from an DynamoDB and iteratively processing each message.",
+  "StartAt": "Get User Preferences",
+  "States": {
+    "Get User Preferences": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:570254315960:function:readUserArray",
+      "ResultPath": "$.userPreference",
+      "Parameters": {
+        "orderId.$": "$.orderId"
+      },
+      "Next": "User Opted ?"
+    },
+    "User Opted ?": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.userPreference.userOpted",
+          "BooleanEquals": true,
+          "Next": "Process Messages"
+        },
+        {
+          "Variable": "$.userPreference.userOpted",
+          "BooleanEquals": false,
+          "Next": "Finish"
+        }
+      ],
+      "Default": "Finish"
+    },
+    "Process Messages": {
+      "Type": "Map",
+      "ItemsPath": "$.userPreference.Item.orderNotificationPreferences",
+      "Parameters": {
+        "channelDetails.$": "$$.Map.Item.Value",
+        "title.$": "$.title",
+        "message.$": "$.message"
+      },
+      "End": true,
+      "Iterator": {
+        "StartAt": "Check Channel",
+        "States": {
+          "Check Channel": {
+            "Type": "Choice",
+            "Choices": [
+              {
+                "Variable": "$.channelDetails.channel",
+                "StringEquals": "INAPP",
+                "Next": "InAPP"
+              },
+              {
+                "Variable": "$.channelDetails.channel",
+                "StringEquals": "GCM",
+                "Next": "Send to Pinpoint"
+              },
+              {
+                "Variable": "$.channelDetails.channel",
+                "StringEquals": "EMAIL",
+                "Next": "Send to Pinpoint"
+              }
+            ],
+            "Default": "No Channel"
+          },
+          "InAPP": {
+            "Type": "Task",
+            "Resource": "arn:aws:lambda:us-east-1:570254315960:function:setInAppNotification",
+            "Parameters": {
+              "title.$": "$.title",
+              "message.$": "$.message"
+            },
+            "ResultPath": "$.response",
+            "End": true
+          },
+          "Send to Pinpoint": {
+            "Type": "Task",
+            "Resource": "arn:aws:lambda:us-east-1:570254315960:function:sendPinpoint",
+            "Parameters": {
+              "title.$": "$.title",
+              "message.$": "$.message",
+              "channel.$": "$.channelDetails.channel",
+              "address.$": "$.channelDetails.address"
+            },
+            "ResultPath": "$.response",
+            "End": true
+          },
+          "No Channel": {
+            "Type": "Succeed"
+          }
+        }
+      },
+      "ResultPath": "$.userPreference.Item.orderNotificationPreferences"
+    },
+    "Finish": {
+      "Type": "Succeed"
+    }
+  }
+}
